@@ -170,7 +170,8 @@ public class Demo implements A, B {
 
 ## Marker Interface
 
-- An interface without any abstract methods is called `Marker` Interface.
+- A marker interface is an `empty interface` which is used to `mark a class`.
+- `JVM` will check for this `marker` and `alters` the `behavior` accordingly.
 - Class implementing such interfaces will get special ability.
 - This special ability is given by `JVM` to the class objects during runtime. 
 - This is because `JVM` is customized to provide that ability to any class that implements such `Marker` Interfaces.
@@ -178,6 +179,56 @@ public class Demo implements A, B {
   - Class implementing Cloneable interface, will get the ability of cloning
 - Eg: Serializable
   - Class implementing Serializable interface, will get the ability to serialize the objects over the network.
+
+### Examples
+
+```java
+// marker interface
+interface Auditable {
+
+}
+
+// class with marker
+class User implements Auditable {
+    String name;
+}
+
+// class without marker
+class Student {
+    String name;
+}
+
+
+// separate utility class that performs an action if a class implements Auditable
+class AuditService {
+    public static void process(Object obj) {
+        if (obj instanceof Auditable) {
+            System.out.println("Audit log created");
+            // logic to peform auditing on object
+        } else {
+            System.out.println("No auditing needed");
+            // skip auditing
+        }
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        // simple user object
+        User user = new User();
+
+        // simple student object
+        Student student = new Student();
+
+        // perform auditing on user object
+        AuditService.process(user);
+
+        // No auditing on student object
+        AuditService.process(student);
+    }
+}
+```
 
 ---
 
